@@ -9,7 +9,7 @@ import java.util.*
 data class Organization(
     override val id: UUID,
     val name: String,
-    val public: Boolean
+    val secret: Boolean
 ) : IdBasedObject<UUID>(id) {
     fun rename(newName: String) = this.copy(name = newName)
 }

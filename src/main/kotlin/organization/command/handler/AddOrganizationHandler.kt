@@ -16,6 +16,6 @@ class AddOrganizationHandler(
     override fun listenTo(): KClass<AddOrganization> = AddOrganization::class
 
     override fun handle(message: AddOrganization) {
-        organizationRepository.add(Organization(UUID.randomUUID(), message.name, message.public))
+        organizationRepository.add(Organization(UUID.randomUUID(), message.name, message.secret))
     }
 }

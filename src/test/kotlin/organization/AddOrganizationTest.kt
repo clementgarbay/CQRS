@@ -22,12 +22,12 @@ class AddOrganizationTest {
         val commandBus = CommandBus(handlers)
 
         val name = "Name"
-        val public = true
+        val secret = true
 
-        commandBus.dispatch(AddOrganization(name, public))
+        commandBus.dispatch(AddOrganization(name, secret))
 
         assertThat(store.getAll().first()).hasFieldOrPropertyWithValue("name", name)
-        assertThat(store.getAll().first()).hasFieldOrPropertyWithValue("public", public)
+        assertThat(store.getAll().first()).hasFieldOrPropertyWithValue("secret", secret)
         assertThat(store.getAll()).hasSize(1)
     }
 
@@ -38,14 +38,14 @@ class AddOrganizationTest {
 
         val name = "Name"
         val name2 = "Name 2"
-        val public = true
-        val public2 = false
+        val secret = true
+        val secret2 = false
 
-        commandBus.dispatch(AddOrganization(name, public))
-        commandBus.dispatch(AddOrganization(name2, public2))
+        commandBus.dispatch(AddOrganization(name, secret))
+        commandBus.dispatch(AddOrganization(name2, secret2))
 
         assertThat(store.getAll().map { it.name }).containsExactly(name, name2)
-        assertThat(store.getAll().map { it.public }).containsExactly(public, public2)
+        assertThat(store.getAll().map { it.secret }).containsExactly(secret, secret2)
         assertThat(store.getAll()).hasSize(2)
     }
 
