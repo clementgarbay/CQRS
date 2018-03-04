@@ -1,8 +1,14 @@
 package core.middleware
 
 import core.Message
+import core.Middleware
 import core.command.CommandMiddleware
-import core.exception.ValidationException
+import core.failure.Failure
+import core.failure.ValidationFailure
+import core.infrastructure.type.Either
+import core.infrastructure.type.Left
+import core.infrastructure.type.Right
+import core.infrastructure.type.flatMap
 import core.query.QueryMiddleware
 import javax.validation.Validator
 
@@ -11,16 +17,16 @@ import javax.validation.Validator
  */
 class ValidatorMiddleware(private val validator: Validator) : CommandMiddleware, QueryMiddleware {
 
-    override fun <R> intercept(message: Message<R>, next: () -> R?): R? {
-        validate(message)
-        return next()
-    }
+    override fun <R> intercept(message: Message<R>, next: () -> Either<Failure, R>?): Either<Failure, R> =
+        validate(message).flatMap { _ -> Middleware.next(this, next) }
 
-    fun <R> validate(message: Message<R>) {
+    fun <R> validate(message: Message<R>): Either<ValidationFailure, Message<R>> {
         val violations = validator.validate(message)
 
         if (violations.isNotEmpty())
-            throw ValidationException(violations.map { it.message })
+            return Left(ValidationFailure(violations.map { it.message }))
+
+        return Right(message)
     }
 
 }

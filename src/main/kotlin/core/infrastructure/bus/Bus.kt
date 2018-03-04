@@ -3,6 +3,8 @@ package core.infrastructure.bus
 import core.Handler
 import core.Message
 import core.Middleware
+import core.failure.Failure
+import core.infrastructure.type.Either
 import core.middleware.InvokeHandlerMiddleware
 
 /**
@@ -14,7 +16,7 @@ abstract class Bus(handlers: List<Handler<*, *>>, middlewares: List<Middleware>)
         commandMiddleware, chain -> Chain(commandMiddleware, chain.next)
     })
 
-    fun <R> dispatch(message: Message<R>): R? = middlewaresChain.apply(message)
+    fun <R> dispatch(message: Message<R>): Either<Failure, R> = middlewaresChain.apply(message)
 
     companion object {
         fun finalChain(handlers: List<Handler<*, *>>) = Chain(InvokeHandlerMiddleware(handlers))
