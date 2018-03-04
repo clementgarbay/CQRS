@@ -1,7 +1,10 @@
 package organization.command
 
+import core.failure.HandlerNotFoundFailure
 import core.infrastructure.bus.command.CommandBus
 import core.infrastructure.persistence.InMemoryStore
+import core.infrastructure.type.isLeft
+import core.infrastructure.type.left
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldEqual
 import org.jetbrains.spek.api.Spek
@@ -66,9 +69,11 @@ object DeleteOrganizationSpec: Spek({
         val commandBus = CommandBus(emptyList())
 
         on("dispatch a DeleteOrganization command") {
-            commandBus.dispatch(DeleteOrganization(id))
+            val result = commandBus.dispatch(DeleteOrganization(id))
 
             it("should have the deleted organization") {
+                result.isLeft() shouldBe true
+                result.left()!!::class shouldBe HandlerNotFoundFailure::class
                 (store.get(id) != null) shouldBe true
                 store.getAll().size shouldEqual 1
             }

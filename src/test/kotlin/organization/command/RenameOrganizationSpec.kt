@@ -1,7 +1,11 @@
 package organization.command
 
+import core.failure.HandlerNotFoundFailure
 import core.infrastructure.bus.command.CommandBus
 import core.infrastructure.persistence.InMemoryStore
+import core.infrastructure.type.isLeft
+import core.infrastructure.type.left
+import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldEqual
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
@@ -73,9 +77,11 @@ object RenameOrganizationSpec: Spek({
         val commandBus = CommandBus(emptyList())
 
         on("dispatch a RenameOrganization command") {
-            commandBus.dispatch(RenameOrganization(id, "New Name"))
+            val result = commandBus.dispatch(RenameOrganization(id, "New Name"))
 
             it("should not rename others organizations") {
+                result.isLeft() shouldBe true
+                result.left()!!::class shouldBe HandlerNotFoundFailure::class
                 store.get(id)!!.name shouldEqual name
                 store.getAll().size shouldEqual 1
             }

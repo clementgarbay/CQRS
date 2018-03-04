@@ -1,9 +1,11 @@
 package core.middleware
 
 import core.command.FakeCommand
-import core.exception.ValidationException
-import org.amshove.kluent.shouldNotThrow
-import org.amshove.kluent.shouldThrow
+import core.infrastructure.type.isLeft
+import core.infrastructure.type.isRight
+import core.infrastructure.type.left
+import org.amshove.kluent.shouldBe
+import org.amshove.kluent.shouldContain
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
@@ -23,18 +25,20 @@ object ValidatorMiddlewareSpec: Spek({
         val validator = ValidatorMiddleware(factory.validator)
 
         on("validate an AddOrganization command") {
-            val invoke = { validator.validate(FakeCommand("Name")) }
+            val validationResult = validator.validate(FakeCommand("Name"))
 
-            it("should not throw an exception") {
-                invoke shouldNotThrow ValidationException::class
+            it("should not throw an failure") {
+                validationResult.isRight() shouldBe true
             }
         }
 
         on("validate an AddOrganization command with empty name") {
-            val invoke = { validator.validate(FakeCommand("")) }
+            val validationResult = validator.validate(FakeCommand(""))
 
-            it("should throw an exception") {
-                invoke shouldThrow ValidationException::class
+            it("should throw an failure") {
+                validationResult.isLeft() shouldBe true
+                validationResult.isRight() shouldBe false
+                validationResult.left()!!.messages shouldContain "must not be empty"
             }
         }
     }
