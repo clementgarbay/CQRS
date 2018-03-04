@@ -1,6 +1,6 @@
 package organization
 
-import core.command.CommandBus
+import core.infrastructure.bus.command.CommandBus
 import core.infrastructure.persistence.InMemoryStore
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test

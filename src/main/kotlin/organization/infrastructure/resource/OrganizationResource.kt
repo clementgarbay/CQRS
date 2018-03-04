@@ -1,6 +1,6 @@
 package organization.infrastructure.resource
 
-import core.command.CommandBus
+import core.infrastructure.bus.command.CommandBus
 import organization.command.RenameOrganization
 import organization.command.handler.RenameOrganizationHandler
 import organization.infrastructure.persistence.OrganizationRepository
