@@ -16,7 +16,7 @@ import core.infrastructure.type.Right
  *
  * Message -> Middleware1 -> Middleware2 -> ... -> InvokeHandlerMiddleware
  */
-class InvokeHandlerMiddleware(private val handlers: List<Handler<*, *>>) : Middleware {
+class InvokeHandlerMiddleware(private val handlers: Set<Handler<*, *>>) : Middleware {
 
     @Suppress("UNCHECKED_CAST")
     override fun <R> intercept(message: Message<R>, next: () -> Either<Failure, R>?): Either<Failure, R> {

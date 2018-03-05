@@ -8,6 +8,6 @@ import core.query.QueryMiddleware
  * @author Clément Garbay
  */
 class QueryBus(
-    handlers: List<QueryHandler<*, *>>,
-    middlewares: List<QueryMiddleware> = emptyList()
+    handlers: Set<QueryHandler<*, *>>,
+    middlewares: Set<QueryMiddleware> = emptySet()
 ) : Bus(handlers, middlewares)

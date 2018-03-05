@@ -32,16 +32,16 @@ repositories {
 }
 
 dependencies {
-    def guice_version = '4.0' // Google guice
-    def validation_version = '2.0.1.Final' // validation api (interfaces)
-    def hibernate_version = '6.0.7.Final' // hibernate validator
-    def javax_el_version = '3.0.1-b08' // implementation of the Unified Expression Language (JSR 341)
-    def kluent_version = '1.4' // test assertion library
-    def spek_version = '1.1.5' // test specification library
-    def junit_runner_version = '1.0.0' // test runner
+    def kodein_version = '4.1.0' // Kodein dependency injection
+    def validation_version = '2.0.1.Final' // Validation api (interfaces)
+    def hibernate_version = '6.0.7.Final' // Hibernate validator
+    def javax_el_version = '3.0.1-b08' // Implementation of the Unified Expression Language (JSR 341)
+    def kluent_version = '1.4' // Test assertion library
+    def spek_version = '1.1.5' // Test specification library
+    def junit_runner_version = '1.0.0' // Test runner
 
     compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib-jdk8', version: "$kotlin_version"
-    compile group: 'com.google.inject', name: 'guice', version: "$guice_version"
+    compile group: 'com.github.salomonbrys.kodein', name: 'kodein', version: "$kodein_version"
     compile group: 'javax.validation', name: 'validation-api', version: "$validation_version"
     compile group: 'org.hibernate', name: 'hibernate-validator', version: "$hibernate_version"
     compile group: 'org.glassfish', name: 'javax.el', version: "$javax_el_version"

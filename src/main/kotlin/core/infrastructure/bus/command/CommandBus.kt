@@ -8,6 +8,6 @@ import core.infrastructure.bus.Bus
  * @author Clément Garbay
  */
 class CommandBus(
-    handlers: List<CommandHandler<*, *>>,
-    middlewares: List<CommandMiddleware> = emptyList()
+    handlers: Set<CommandHandler<*, *>>,
+    middlewares: Set<CommandMiddleware> = emptySet()
 ) : Bus(handlers, middlewares)
