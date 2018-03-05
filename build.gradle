@@ -36,6 +36,7 @@ dependencies {
     def validation_version = '2.0.1.Final' // Validation api (interfaces)
     def hibernate_version = '6.0.7.Final' // Hibernate validator
     def javax_el_version = '3.0.1-b08' // Implementation of the Unified Expression Language (JSR 341)
+    def spark_version = '1.0.0-alpha' // Spark REST API
     def kluent_version = '1.4' // Test assertion library
     def spek_version = '1.1.5' // Test specification library
     def junit_runner_version = '1.0.0' // Test runner
@@ -45,6 +46,7 @@ dependencies {
     compile group: 'javax.validation', name: 'validation-api', version: "$validation_version"
     compile group: 'org.hibernate', name: 'hibernate-validator', version: "$hibernate_version"
     compile group: 'org.glassfish', name: 'javax.el', version: "$javax_el_version"
+    compile group: 'com.sparkjava', name: 'spark-kotlin', version: "$spark_version"
     testCompile group: 'org.amshove.kluent', name: 'kluent', version: "$kluent_version"
     testCompile group: 'org.jetbrains.spek', name: 'spek-api', version: "$spek_version"
     testCompile group: 'org.junit.platform', name: 'junit-platform-runner', version: "$junit_runner_version"
