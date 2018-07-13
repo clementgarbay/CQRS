@@ -1,5 +1,12 @@
 # Kotlin CQRS
 
-Basic CQRS pattern implementation in Kotlin.
+CQRS and Event Sourcing pattern implementation.
 
-An example representing simple `Organization` (id, name, is secret) has been implemented. See unit tests for more details.
+## TODO
+
+- Add unit tests for core system
+- Add documentation
+    - Basic concepts
+    - How to use
+    - DI
+- Publish final compiled version to remote repository
