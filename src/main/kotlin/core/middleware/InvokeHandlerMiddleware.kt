@@ -3,11 +3,8 @@ package core.middleware
 import core.Handler
 import core.Message
 import core.Middleware
-import core.failure.Failure
-import core.failure.HandlerNotFoundFailure
-import core.infrastructure.type.Either
-import core.infrastructure.type.Left
-import core.infrastructure.type.Right
+import core.Result
+import core.exception.HandlerNotFoundException
 
 /**
  * @author Clément Garbay
@@ -19,14 +16,14 @@ import core.infrastructure.type.Right
 class InvokeHandlerMiddleware(private val handlers: Set<Handler<*, *>>) : Middleware {
 
     @Suppress("UNCHECKED_CAST")
-    override fun <R> intercept(message: Message<R>, next: () -> Either<Failure, R>?): Either<Failure, R> {
+    override fun <R> intercept(message: Message<R>, next: () -> Result<R>?): Result<R> {
         val handler = (handlers.find { it.listenTo() == message::class }) as? Handler<Message<R>, R>?
 
         if (handler != null) {
-            return Right(handler.handle(message))
+            return handler.handle(message)
         }
 
-        return Left(HandlerNotFoundFailure(message))
+        throw HandlerNotFoundException(message)
     }
 
 }

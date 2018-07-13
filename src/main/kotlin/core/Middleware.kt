@@ -1,20 +1,16 @@
 package core
 
-import core.failure.Failure
-import core.failure.MissingNextMiddlewareFailure
-import core.infrastructure.type.Either
-import core.infrastructure.type.Left
+import core.exception.MissingNextMiddlewareException
 
 /**
  * @author Clément Garbay
  */
 interface Middleware {
-    fun <R> intercept(message: Message<R>, next: () -> Either<Failure, R>?): Either<Failure, R>
+    fun <R> intercept(message: Message<R>, next: () -> Result<R>?): Result<R>
 
     companion object {
-        // Helper to safely call next middleware
-        fun <R> next(currentMiddleware: Middleware, next: () -> Either<Failure, R>?): Either<Failure, R> {
-            return next() ?: Left(MissingNextMiddlewareFailure(currentMiddleware))
+        fun <R> next(currentMiddleware: Middleware, next: () -> Result<R>?): Result<R> {
+            return next() ?: throw MissingNextMiddlewareException(currentMiddleware)
         }
     }
 }
